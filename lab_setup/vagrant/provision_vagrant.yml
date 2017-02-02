@@ -5,6 +5,14 @@
     - user_accounts
     - common
 
+- name: Manage vagrant instances
+  hosts: control_nodes
+  connection: local
+  become: no
+  gather_facts: no
+  roles:
+    - manage_vagrant_instances
+
 - name: Configure control node
   hosts: control_nodes
   become: yes

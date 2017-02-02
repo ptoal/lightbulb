@@ -93,13 +93,20 @@
     - control_node
     - control
 
+- name: Check {{ username }}-instances.txt file
+  stat:
+    path: ./{{ username }}-instances.txt
+  register: file_instances
+  delegate_to: 127.0.0.1
+  become: no
+
 - name: Put student inventory in proper spot
   copy:
     src: ./{{ username }}-instances.txt
     dest: "{{ control_node_inventory_path }}"
     owner: "{{ username }}"
     group: "{{ username }}"
-  when: username in inventory_hostname
+  when: file_instances.stat.islnk is defined
   tags:
     - control_node
     - control

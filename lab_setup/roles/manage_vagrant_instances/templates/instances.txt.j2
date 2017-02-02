@@ -1,0 +1,20 @@
+[all:vars]
+ansible_user={{ username }}
+ansible_ssh_pass={{ admin_password }}
+{% if ansible_port is defined %}
+ansible_port={{ ansible_port }}
+{% endif %}
+
+[web]
+node1 ansible_host={{ hostvars['node1'].ansible_eth1.ipv4.address }}
+node2 ansible_host={{ hostvars['node2'].ansible_eth1.ipv4.address }}
+node3 ansible_host={{ hostvars['node3'].ansible_eth1.ipv4.address }}
+
+[control]
+control ansible_host={{ hostvars['control'].ansible_eth1.ipv4.address }}
+
+[haproxy]
+haproxy ansible_host={{ hostvars['haproxy'].ansible_eth1.ipv4.address }}
+
+[grafana]
+grafana ansible_host={{ hostvars['haproxy'].ansible_eth1.ipv4.address }}

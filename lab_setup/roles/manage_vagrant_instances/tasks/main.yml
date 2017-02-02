@@ -1,0 +1,8 @@
+- name: Generate student inventory
+  template:
+    src: instances.txt.j2
+    dest: ./{{ username }}-instances.txt
+  tags:
+    - inventory
+    - users
+    - user_accounts
