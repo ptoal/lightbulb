@@ -7,12 +7,13 @@
   shell: sleep 2 && reboot
   async: 30
   poll: 0
+  when: ansible_connection != "local"
 
 - name: wait for instance
   delegate_to: localhost
   become: no
   wait_for:
-    port: "{{ ssh_port }}"
+    port: "{{ ansible_port }}"
     host: "{{ ansible_host }}"
     search_regex: OpenSSH
     timeout: 500

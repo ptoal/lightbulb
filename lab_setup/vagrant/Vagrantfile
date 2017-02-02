@@ -1,0 +1,72 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+VAGRANTFILE_API_VERSION = "2"
+
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  # All Vagrant configuration is done here. The most common configuration
+  # options are documented and commented below. For a complete reference,
+  # please see the online documentation at vagrantup.com.
+
+  # Every Vagrant virtual environment requires a box to build off of.
+
+  config.vm.box = "centos/7"
+
+  config.vm.define "node1" do |machine|
+    config.vm.provider :virtualbox do |vb, override|
+      vb.customize ["modifyvm", :id, "--memory", "256"]
+      vb.customize ["modifyvm", :id, "--cpus", "1"]
+    end
+    config.vm.hostname = "node1"
+    machine.vm.network "private_network", ip: "10.42.0.6"
+  end
+
+  config.vm.define "node2" do |machine|
+    config.vm.provider :virtualbox do |vb, override|
+      vb.customize ["modifyvm", :id, "--memory", "256"]
+      vb.customize ["modifyvm", :id, "--cpus", "1"]
+    end
+    config.vm.hostname = "node2"
+    machine.vm.network "private_network", ip: "10.42.0.7"
+  end
+
+  config.vm.define "node3" do |machine|
+    config.vm.provider :virtualbox do |vb, override|
+      vb.customize ["modifyvm", :id, "--memory", "256"]
+      vb.customize ["modifyvm", :id, "--cpus", "1"]
+    end
+    config.vm.hostname = "node3"
+    machine.vm.network "private_network", ip: "10.42.0.8"
+  end
+
+  config.vm.define "haproxy" do |machine|
+    config.vm.provider :virtualbox do |vb, override|
+      vb.customize ["modifyvm", :id, "--memory", "256"]
+      vb.customize ["modifyvm", :id, "--cpus", "1"]
+    end
+    config.vm.hostname = "haproxy"
+    machine.vm.network "private_network", ip: "10.42.0.9"
+  end
+
+  config.vm.define 'control' do |machine|
+    config.vm.provider :virtualbox do |vb, override|
+      vb.customize ["modifyvm", :id, "--memory", "1024"]
+      vb.customize ["modifyvm", :id, "--cpus", "1"]
+    end
+    config.vm.hostname = "control"
+    machine.vm.network "private_network", ip: "10.42.0.2"
+
+    config.vm.synced_folder "./.vagrant", "/vagrant/.vagrant", type: "rsync"
+    config.vm.synced_folder "../roles", "/vagrant/roles", type: "rsync"
+
+    machine.vm.provision :ansible_local do |ansible|
+      ansible.playbook       = "provision_vagrant.yml"
+      ansible.verbose        = false
+      ansible.install        = true
+      ansible.limit          = "all"
+      ansible.inventory_path = "inventory"
+    end
+  end
+
+end

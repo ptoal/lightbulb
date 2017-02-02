@@ -9,7 +9,7 @@
     ec2_wait: no
 
   roles:
-    - manage_ec2_instances
+    - ../roles/manage_ec2_instances
 
   post_tasks:
     - name: Remove inventory files

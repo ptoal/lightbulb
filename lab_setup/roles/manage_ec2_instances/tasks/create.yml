@@ -7,7 +7,7 @@
     - provision
 
 - name: Waiting for servers to come online
-  wait_for: host="{{ item.tagged_instances[0].public_ip }}" port="{{ ssh_port }}" search_regex=OpenSSH
+  wait_for: host="{{ item.tagged_instances[0].public_ip }}" port="{{ ansible_port }}" search_regex=OpenSSH
   with_items: "{{ instances.results }}"
   when: instances | changed
   tags:
@@ -19,7 +19,7 @@
     name: "{{ item.invocation.module_args.instance_tags.Name }}"
     ansible_host: "{{ item.tagged_instances[0].public_ip }}"
     ansible_user: "{{ ec2_login_names[item.item.item.1.type] }}"
-    ansible_port: "{{ ssh_port }}"
+    ansible_port: "{{ ansible_port }}"
     groups: lab_hosts,control_nodes
   with_items: "{{ instances.results }}"
   when: "'control' in item.invocation.module_args.instance_tags.Name"
@@ -33,7 +33,7 @@
     name: "{{ item.invocation.module_args.instance_tags.Name }}"
     ansible_host: "{{ item.tagged_instances[0].public_ip }}"
     ansible_user: "{{ ec2_login_names[item.item.item.1.type] }}"
-    ansible_port: "{{ ssh_port }}"
+    ansible_port: "{{ ansible_port }}"
     groups: lab_hosts,managed_nodes
   with_items: "{{ instances.results }}"
   when: "'control' not in item.invocation.module_args.instance_tags.Name"

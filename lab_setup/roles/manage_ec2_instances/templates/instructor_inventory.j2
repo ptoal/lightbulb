@@ -1,6 +1,6 @@
 [all:vars]
-{% if ssh_port is defined %}
-ansible_port={{ ssh_port }}
+{% if ansible_port is defined %}
+ansible_port={{ ansible_port }}
 {% endif %}
 
 {% for user in users %}

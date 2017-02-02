@@ -12,7 +12,7 @@ This is an automated lab setup for Ansible training. It creates five nodes per u
 
 ### AWS Setup ###
 
-The `provision_lab.yml` playbook creates instances, configures them for password authentication, creates an inventory file for each user with their IPs and credentials, and emails every user their respective inventory file. An instructor inventory file is also created in the current directory which will let the instructor access the nodes of any student by simply targeting the the username as a host group. The lab is created in `us-east-1` by default.
+The `provision_aws.yml` playbook creates instances, configures them for password authentication, creates an inventory file for each user with their IPs and credentials, and emails every user their respective inventory file. An instructor inventory file is also created in the current directory which will let the instructor access the nodes of any student by simply targeting the the username as a host group. The lab is created in `us-east-1` by default.
 
 **Note:** Emails are sent _every_ time the playbook is run. To prevent emails from being sent on subsequent runs of the playbook, add `email: no` to `extra_vars.yml`.
 
@@ -88,7 +88,7 @@ To set up the lab for Ansible training, follow these steps.
 
 9. Run the playbook:
 
-        ansible-playbook provision_lab.yml -e @extra_vars.yml -e @users.yml
+        ansible-playbook provision_aws.yml -e @extra_vars.yml -e @users.yml
 
 10. Check on the EC2 console and you should see instances being created like:
 
@@ -99,10 +99,10 @@ If successful all your students will be emailed the details of their hosts inclu
 
 ### AWS Teardown ###
 
-The `teardown_lab.yml` playbook deletes all the training instances as well as local inventory files.
+The `teardown_aws.yml` playbook deletes all the training instances as well as local inventory files.
 
 To destroy all the EC2 instaances after training is complete:
 
 1. Run the playbook:
 
-        ansible-playbook teardown_lab.yml -e @extra_vars.yml
+        ansible-playbook teardown_aws.yml -e @extra_vars.yml
