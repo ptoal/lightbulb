@@ -23,7 +23,7 @@ To set up the lab for Ansible training, follow these steps.
 3. After provisioning is finished, run:
 
    "vagrant ssh control"
-   >sudo -i su - labuser
+   >sudo su - labuser
 
 
 ### Vagrant Teardown ###
