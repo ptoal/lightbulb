@@ -63,7 +63,7 @@
     state: absent
     path: ~{{ username }}/lightbulb/{{ item }}
   with_items:
-    - aws_lab_setup
+    - lab_setup
     - resources
     - Vagrantfile
     - README.md
