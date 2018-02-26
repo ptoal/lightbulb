@@ -1,2 +1,1 @@
-firewall_name: iptables
 common_ssh_service_name: sshd
