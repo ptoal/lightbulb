@@ -24,40 +24,40 @@
       value: "{{ ec2_name_prefix | lower }}.{{ workshop_dns_zone }}.s3-website-{{ ec2_region }}.amazonaws.com"
     when: ec2_region == 'us-east-1'
 
-    - name: dns for landing page
-      route53:
-        state: "{{ s3_state }}"
-        zone: "{{ workshop_dns_zone }}"
-        record: "{{ ec2_name_prefix | lower }}.{{ workshop_dns_zone }}"
-        type: CNAME
-        overwrite: yes
-        value: "{{ ec2_name_prefix | lower }}.{{ workshop_dns_zone }}.s3-website.{{ ec2_region }}.amazonaws.com"
-      when: ec2_region != 'us-east-1'
+  - name: dns for landing page
+    route53:
+      state: "{{ s3_state }}"
+      zone: "{{ workshop_dns_zone }}"
+      record: "{{ ec2_name_prefix | lower }}.{{ workshop_dns_zone }}"
+      type: CNAME
+      overwrite: yes
+      value: "{{ ec2_name_prefix | lower }}.{{ workshop_dns_zone }}.s3-website.{{ ec2_region }}.amazonaws.com"
+    when: ec2_region != 'us-east-1'
 
-    - name: PUT landing page
-      s3_sync:
-        bucket: "{{ ec2_name_prefix | lower }}.{{ workshop_dns_zone }}"
-        region: "{{ ec2ec2_region }}"
-        file_root: ./
-        mime_map:
-          .html: text/html
-        permission: public-read
-        include: 'index.html'
+  - name: PUT landing page
+    s3_sync:
+      bucket: "{{ ec2_name_prefix | lower }}.{{ workshop_dns_zone }}"
+      region: "{{ ec2ec2_region }}"
+      file_root: ./
+      mime_map:
+        .html: text/html
+      permission: public-read
+      include: 'index.html'
 
-    - name: proper response from landing page is received
-      uri:
-        url: "http://{{ ec2_name_prefix | lower }}.{{ workshop_dns_zone }}/"
-        return_content: yes
-        validate_certs: no
-      register: response
-      until: "'Ansible Lightbulb Workshop' in response.content"
-      retries: 2
-      delay: 1
-      ignore_errors: yes
+  - name: proper response from landing page is received
+    uri:
+      url: "http://{{ ec2_name_prefix | lower }}.{{ workshop_dns_zone }}/"
+      return_content: yes
+      validate_certs: no
+    register: response
+    until: "'Ansible Lightbulb Workshop' in response.content"
+    retries: 2
+    delay: 1
+    ignore_errors: yes
 
-    - name: output url
-      debug:
-        msg: 'landing page is available at http://{{ ec2_name_prefix | lower }}.{{ workshop_dns_zone }}/'
-      when: response | success
+  - name: output url
+    debug:
+      msg: 'landing page is available at http://{{ ec2_name_prefix | lower }}.{{ workshop_dns_zone }}/'
+    when: response | success
 
   when: s3_state == 'present'
