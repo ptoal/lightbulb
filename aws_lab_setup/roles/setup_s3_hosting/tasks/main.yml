@@ -5,6 +5,16 @@
     region: "{{ ec2_region }}"
     force: yes
 
+- name: dns for landing page
+  route53:
+    state: "{{ s3_state }}"
+    zone: "{{ workshop_dns_zone }}"
+    record: "{{ ec2_name_prefix | lower }}.{{ workshop_dns_zone }}"
+    type: CNAME
+    overwrite: yes
+    value: "{{ ec2_name_prefix | lower }}.{{ workshop_dns_zone }}.s3-website-{{ ec2_region }}.amazonaws.com"
+  when: ec2_region == 'us-east-1'
+
 - block:
   - name: enable web hosting on bucket
     s3_website:
@@ -13,16 +23,6 @@
       region: "{{ ec2_region }}"
       suffix: 'index.html'
     register: s3_site
-
-  - name: dns for landing page
-    route53:
-      state: "{{ s3_state }}"
-      zone: "{{ workshop_dns_zone }}"
-      record: "{{ ec2_name_prefix | lower }}.{{ workshop_dns_zone }}"
-      type: CNAME
-      overwrite: yes
-      value: "{{ ec2_name_prefix | lower }}.{{ workshop_dns_zone }}.s3-website-{{ ec2_region }}.amazonaws.com"
-    when: ec2_region == 'us-east-1'
 
   - name: dns for landing page
     route53:
