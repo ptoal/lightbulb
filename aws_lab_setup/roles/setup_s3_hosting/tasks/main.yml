@@ -47,6 +47,5 @@
   - name: output url
     debug:
       msg: 'landing page is available at http://{{ ec2_name_prefix | lower }}.{{ workshop_dns_zone }}/'
-    when: response | success
 
   when: s3_state == 'present'
