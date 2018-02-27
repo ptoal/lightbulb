@@ -44,17 +44,6 @@
       permission: public-read
       include: 'index.html'
 
-  - name: proper response from landing page is received
-    uri:
-      url: "http://{{ ec2_name_prefix | lower }}.{{ workshop_dns_zone }}/"
-      return_content: yes
-      validate_certs: no
-    register: response
-    until: "'Ansible Lightbulb Workshop' in response.content"
-    retries: 2
-    delay: 1
-    ignore_errors: yes
-
   - name: output url
     debug:
       msg: 'landing page is available at http://{{ ec2_name_prefix | lower }}.{{ workshop_dns_zone }}/'
