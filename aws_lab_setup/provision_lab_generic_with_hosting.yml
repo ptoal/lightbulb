@@ -34,8 +34,9 @@
 
 - name: Create Landing Page
   hosts: localhost
+  connection: local
+  become: no
   gather_facts: no
 
   roles:
   - role: setup_s3_hosting
-  
