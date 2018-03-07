@@ -44,6 +44,15 @@
       permission: public-read
       include: 'index.html'
 
+  - name: PUT decks
+    s3_sync:
+      bucket: "{{ ec2_name_prefix | lower }}.{{ workshop_dns_zone }}"
+      region: "{{ ec2_region }}"
+      file_root: decks/
+      mime_map:
+        .html: text/html
+      permission: public-read
+
   - name: output url
     debug:
       msg: 'landing page is available at http://{{ ec2_name_prefix | lower }}.{{ workshop_dns_zone }}/'

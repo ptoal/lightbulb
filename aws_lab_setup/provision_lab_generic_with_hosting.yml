@@ -39,4 +39,4 @@
   gather_facts: no
 
   roles:
-  - role: setup_s3_hosting
+  - {role: setup_s3_hosting, tags: s3}
