@@ -51,7 +51,9 @@
       file_root: ../decks/
       mime_map:
         .html: text/html
+        .svg: image/svg+xml
       permission: public-read
+      key_prefix: decks
       include: '*'
 
   - name: output url
