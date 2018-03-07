@@ -10,6 +10,8 @@
         users: "{{ users|default([]) + [ {'name': 'student' + item, 'username': 'student' + item, 'email': 'student' + item + '@example.com'} ] }}"
       with_sequence: start="{{ student_count_start }}" end="{{ student_count_end }}"
       when: student_count_start is defined and student_count_end is defined
+      tags:
+       - always
 
 - name: Create lab instances in AWS
   hosts: localhost
