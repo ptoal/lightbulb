@@ -48,7 +48,7 @@
     s3_sync:
       bucket: "{{ ec2_name_prefix | lower }}.{{ workshop_dns_zone }}"
       region: "{{ ec2_region }}"
-      file_root: ./decks
+      file_root: decks
       mime_map:
         .html: text/html
       permission: public-read
