@@ -31,7 +31,7 @@
   pip:
     name:
       - ansible
-    state: latest
+    state: "{{ ansible_version | default('latest')}}
   register: install_ansible
   until: install_ansible|success
   delay: 3
@@ -47,7 +47,7 @@
     accept_hostkey: yes
     clone: yes
     dest: ~{{ username }}/lightbulb
-    repo: https://github.com/ansible/lightbulb.git
+    repo: https://github.com/mgmt-sa-tiger-team/lightbulb.git
     force: yes
   register: clone_lightbulb
   until: clone_lightbulb|success
@@ -103,4 +103,3 @@
   tags:
     - control_node
     - control
-
