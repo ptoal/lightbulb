@@ -31,7 +31,7 @@
   pip:
     name:
       - ansible
-    state: "{{ ansible_version | default('latest')}}
+    state: "{{ ansible_version | default('latest')}}"
   register: install_ansible
   until: install_ansible|success
   delay: 3
