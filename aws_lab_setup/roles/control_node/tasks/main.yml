@@ -40,13 +40,13 @@
     - control
   when:
     - control_node_install_ansible
-    - ansible_version is not defined
+    - ansible_pip_version is not defined
 
-- name: "Install Ansible version {{ ansible_version }}"
+- name: "Install Ansible version {{ ansible_pip_version }}"
   pip:
     name: ansible
     state: present
-    version: "{{ ansible_version }}"
+    version: "{{ ansible_pip_version }}"
   register: install_ansible
   until: install_ansible|success
   delay: 3
@@ -56,7 +56,7 @@
     - control
   when:
     - control_node_install_ansible
-    - ansible_version is defined
+    - ansible_pip_version is defined
 
 
 - name: Clone lightbulb
