@@ -64,7 +64,7 @@
     accept_hostkey: yes
     clone: yes
     dest: ~{{ username }}/lightbulb
-    repo: https://github.com/mgmt-sa-tiger-team/lightbulb.git
+    repo: https://github.com/ansible/lightbulb.git
     force: yes
   register: clone_lightbulb
   until: clone_lightbulb|success
