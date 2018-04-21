@@ -1,3 +1,4 @@
 workshop_dns_zone: "rhdemo.io"
 s3_state: "present"
 ec2_region: us-east-1
+tower_license: 'License avaible from https://www.ansible.com/workshop-license'

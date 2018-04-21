@@ -56,6 +56,24 @@
       key_prefix: decks
       include: '*'
 
+  - name: Write License Local
+    copy:
+      content: "{{ tower_license }}"
+      dest: ./license.txt
+
+  - name: PUT License
+    s3_sync:
+      bucket: "{{ ec2_name_prefix | lower }}.{{ workshop_dns_zone }}"
+      region: "{{ ec2_region }}"
+      file_root: ./
+      permission: public-read
+      include: 'license.txt'
+
+  - name: Remove License from Local
+    file:
+      path: ./license.txt
+      state: absent
+
   - name: output url
     debug:
       msg: 'landing page is available at http://{{ ec2_name_prefix | lower }}.{{ workshop_dns_zone }}/'
