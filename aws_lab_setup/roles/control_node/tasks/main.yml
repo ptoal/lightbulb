@@ -27,11 +27,11 @@
     - control_node
     - control
 
-- name: Install Ansible
+- name: Install Ansible version latest
   pip:
     name:
       - ansible
-    state: "{{ ansible_version | default('latest')}}"
+    state: latest
   register: install_ansible
   until: install_ansible|success
   delay: 3
@@ -39,7 +39,26 @@
   tags:
     - control_node
     - control
-  when: control_node_install_ansible
+  when:
+   - control_node_install_ansible
+   - ansible_version is not defined
+
+  - name: Install Ansible version latest
+   pip:
+     name:
+       - ansible
+     state: present
+     version: "{{ ansible_version }}"
+   register: install_ansible
+   until: install_ansible|success
+   delay: 3
+   retries: 5
+   tags:
+     - control_node
+     - control
+   when:
+    - control_node_install_ansible
+    - ansible_version is defined
 
 
 - name: Clone lightbulb
