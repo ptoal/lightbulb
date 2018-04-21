@@ -42,7 +42,7 @@
     - control_node_install_ansible
     - ansible_version is not defined
 
-- name: Install Ansible version latest
+- name: "Install Ansible version {{ ansible_version }}"
   pip:
     name: ansible
     state: present
