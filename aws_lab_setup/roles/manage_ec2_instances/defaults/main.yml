@@ -9,7 +9,7 @@ ec2_wait: yes
 workshop_dns_zone: "rhdemo.io"
 
 ec2_lab_node_types:
-  - name: control
+  - name: ansible
     type: rhel7-tower
 
   - name: node1
@@ -18,8 +18,8 @@ ec2_lab_node_types:
   - name: node2
     type: rhel7
 
-  - name: node3
-    type: rhel7
+#  - name: node3
+#    type: rhel7
 
-  - name: haproxy
-    type: rhel7
+#  - name: haproxy
+#    type: rhel7
