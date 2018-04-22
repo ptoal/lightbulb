@@ -12,3 +12,4 @@ admin_password: changeme123           # Set this to something better if you'd li
 ansible_pip_version: '2.4.4'              # Set to desired ansible version. Not required. Will default to latest. Latest may cause errors with modules used in labs
 tower_license: ''                     # Set to the text of the license from https://www.ansible.com/workshop-license
 student_count: 1
+ssh_port: 22
