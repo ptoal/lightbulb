@@ -1,11 +1,21 @@
 - name: Create EC2 security group
   ec2_group:
-    name: insecure_all
-    description: all ports open
+    name: Lightbulb-Workshop
+    description: HTTP/S + SSH
     region: "{{ ec2_region }}"
     vpc_id: "{{ ec2_vpc_id }}"
     rules:
-      - proto: all
+      - proto: tcp
+        to_port: 443
+        from_port: 443
+        cidr_ip: 0.0.0.0/0
+      - proto: tcp
+        to_port: 80
+        from_port: 80
+        cidr_ip: 0.0.0.0/0
+      - proto: tcp
+        to_port: 22
+        from_port: 22
         cidr_ip: 0.0.0.0/0
     rules_egress:
       - proto: all
