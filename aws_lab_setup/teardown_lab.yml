@@ -3,7 +3,8 @@
   connection: local
   become: no
   gather_facts: yes
-
+  vars_files:
+    - [ 'vars/custom.yml', 'vars/main.yml' ]
   vars:
     ec2_exact_count: 0
     ec2_wait: no

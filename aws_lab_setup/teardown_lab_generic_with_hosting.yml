@@ -3,7 +3,8 @@
   connection: local
   become: no
   gather_facts: no
-
+  vars_files:
+    - [ 'vars/custom.yml', 'vars/main.yml' ]
   roles:
   - {name: setup_s3_hosting, s3_state: absent}
 

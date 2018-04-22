@@ -3,7 +3,8 @@
   connection: local
   become: no
   gather_facts: no
-
+  vars_files:
+    - [ 'vars/custom.yml', 'vars/main.yml' ]
   tasks:
     - name: generate users list
       set_fact:
@@ -18,12 +19,16 @@
   connection: local
   become: no
   gather_facts: no
+  vars_files:
+    - [ 'vars/custom.yml', 'vars/main.yml' ]
   roles:
     - manage_ec2_instances
 
 - name: Configure common options on managed nodes and control nodes
   hosts: "managed_nodes:control_nodes"
   become: yes
+  vars_files:
+    - [ 'vars/custom.yml', 'vars/main.yml' ]
   roles:
     - user_accounts
     - common
@@ -31,6 +36,8 @@
 - name: Configure control node
   hosts: control_nodes
   become: yes
+  vars_files:
+    - [ 'vars/custom.yml', 'vars/main.yml' ]
   roles:
     - control_node
 
@@ -38,7 +45,8 @@
   hosts: localhost
   connection: local
   become: no
+  vars_files:
+    - [ 'vars/custom.yml', 'vars/main.yml' ]
   gather_facts: no
-
   roles:
   - {role: setup_s3_hosting, tags: s3}
