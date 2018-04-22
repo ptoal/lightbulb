@@ -9,7 +9,7 @@
     - name: generate users list
       set_fact:
         users: "{{ users|default([]) + [ {'name': 'student' + item, 'username': 'student' + item, 'email': 'student' + item + '@example.com'} ] }}"
-      with_sequence: start="{{ student_count_start }}" end="{{ student_count_end }}"
+      with_sequence: count="{{ student_count }}"
 
 - name: Destroy lab instances in AWS
   hosts: localhost
