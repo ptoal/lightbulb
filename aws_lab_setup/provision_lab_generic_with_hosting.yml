@@ -10,6 +10,8 @@
         users: "{{ users|default([]) + [ {'name': 'student' + item, 'username': 'student' + item, 'email': 'student' + item + '@example.com'} ] }}"
       with_sequence: start="{{ student_count_start }}" end="{{ student_count_end }}"
       when: student_count_start is defined and student_count_end is defined
+      tags:
+       - always
 
 - name: Create lab instances in AWS
   hosts: localhost
@@ -32,53 +34,11 @@
   roles:
     - control_node
 
-- name: Create hosting instance on AWS
+- name: Create Landing Page
   hosts: localhost
   connection: local
   become: no
   gather_facts: no
+
   roles:
-    - setup_ec2_hosting
-
-- name: Install nginx
-  hosts: hosting_nodes
-  become: yes
-  roles:
-    - nginx
-
-  post_tasks:
-    - name: copy index.html
-      copy:
-        src: index.html
-        dest: /usr/share/nginx/html/index.html
-
-    - name: set selinux
-      sefcontext:
-        target: '/usr/share/nginx/html'
-        setype: httpd_sys_content_t
-        state: present
-      when: ansible_selinux.status is defined and ansible_selinux.status == "enabled"
-
-    - name: proper response from nginx is received
-      uri:
-        url: http://{{ inventory_hostname }}/
-        return_content: yes
-        validate_certs: no
-      register: response
-      until: "'Ansible Lightbulb Workshop' in response.content"
-      retries: 2
-      delay: 1
-      ignore_errors: yes
-
-    - name: output url
-      debug:
-        msg: 'application is available at http://{{ inventory_hostname }}/'
-      when: response | success
-
-- name: Email inventory to instructor
-  hosts: localhost
-  connection: local
-  become: no
-  gather_facts: no
-  roles:
-    - email-instructor
+  - {role: setup_s3_hosting, tags: s3}
