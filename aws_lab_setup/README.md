@@ -4,17 +4,16 @@ Ansible AWS training provisioner
 This is an automated lab setup for Ansible training. It creates five nodes per user in the `users` list.
 
 * One control node from which Ansible will be executed from and where Ansible Tower can be installed
-* Three web nodes that coincide with the three nodes in lightbulb's original design
-* And one node where `haproxy` is installed (via lightbulb lesson)
+* Two web nodes that coincide with the three nodes in lightbulb's original design
 
 ## Usage ##
 
 
 ### AWS Setup ###
 
-The `provision_lab.yml` playbook creates instances, configures them for password authentication, creates an inventory file for each user with their IPs and credentials, and emails every user their respective inventory file. An instructor inventory file is also created in the current directory which will let the instructor access the nodes of any student by simply targeting the the username as a host group. The lab is created in `us-east-1` by default.
+The `provision.yml` playbook creates instances, configures them for password authentication, creates an inventory file for each user with their IPs and credentials, and emails every user their respective inventory file. An instructor inventory file is also created in the current directory which will let the instructor access the nodes of any student by simply targeting the the username as a host group. The lab is created in `us-east-1` by default.
 
-**Note:** Emails are sent _every_ time the playbook is run. To prevent emails from being sent on subsequent runs of the playbook, add `email: no` to `extra_vars.yml`.
+**Note:** Emails are sent _every_ time the playbook is run. To prevent emails from being sent on subsequent runs of the playbook, add `email: no` to `vars/main.yml`.
 
 To set up the lab for Ansible training, follow these steps.
 
@@ -58,7 +57,7 @@ To set up the lab for Ansible training, follow these steps.
         git clone https://github.com/ansible/lightbulb.git
         cd lightbulb/aws_lab_setup
 
-7. Define the following variables, either in a file passed in using `-e @extra_vars.yml` or directly in a `vars` section in `aws_lab_setup\infra-aws.yml`:
+7. Define the following variables, either in a file passed in using `-e @extra_vars.yml` or directly in a `vars` section in `aws_lab_setup/vars/main.yml`:
 
       ```yaml
       ec2_key_name: username                # SSH key in AWS to put in all the instances
@@ -73,26 +72,15 @@ To set up the lab for Ansible training, follow these steps.
       admin_password: changeme123           # Set this to something better if you'd like. Defaults to 'LearnAnsible[two digit month][two digit year]', e.g., LearnAnsible0416
       ansible_pip_version: '2.4.4'              # Set to desired ansible version. Not required. Will default to latest. Latest may cause errors with modules used in labs
       tower_license: ''                     # Set to the text of the license from https://www.ansible.com/workshop-license
+      student_count: 1
+      ssh_port: 22
       ```
 
-8. Create a `users.yml` by copying `sample-users.yml` and adding all your students:
+8. Run the playbook:
 
-     ```yaml
-     users:
-        - name: Bod Barker
-          username: bbarker
-          email: bbarker@acme.com
+        ansible-playbook provision.yml
 
-        - name: Jane Smith
-          username: jsmith
-          email: jsmith@acme.com
-     ```
-
-9. Run the playbook:
-
-        ansible-playbook provision_lab.yml -e @extra_vars.yml -e @users.yml
-
-10. Check on the EC2 console and you should see instances being created like:
+9. Check on the EC2 console and you should see instances being created like:
 
         TRAINING-LAB-<student_username>-node1|2|3|haproxy|tower|control
 
@@ -101,10 +89,10 @@ If successful all your students will be emailed the details of their hosts inclu
 
 ### AWS Teardown ###
 
-The `teardown_lab.yml` playbook deletes all the training instances as well as local inventory files.
+The `teardown.yml` playbook deletes all the training instances as well as local inventory files.
 
 To destroy all the EC2 instaances after training is complete:
 
 1. Run the playbook:
 
-        ansible-playbook teardown_lab.yml -e @extra_vars.yml
+        ansible-playbook teardown.yml
