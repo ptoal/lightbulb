@@ -3,11 +3,10 @@
   tags:
     - always
 
-- name: RHEL | Install {{ firewall_name }} and libselinux-python
+- name: RHEL | Install libselinux-python
   yum:
     name:
       - libselinux-python
-      - "{{ firewall_name }}"
     state: present
   register: install_packages
   until: install_packages|success
@@ -24,12 +23,5 @@
   notify:
     - reboot
     - wait for instance
-  tags:
-    - common
-
-- name: RHEL | Stop and disable firewall
-  service:
-    name: "{{ firewall_name }}"
-    state: stopped
   tags:
     - common

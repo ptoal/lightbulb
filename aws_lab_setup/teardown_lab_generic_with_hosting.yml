@@ -4,27 +4,10 @@
   become: no
   gather_facts: no
 
-  tasks:
-    - name: Get record for router ELB DNS Entry
-      route53:
-        command: get
-        zone: "{{ hosted_zone_domain_name }}"
-        record: "{{ ec2_name_prefix }}.{{ hosted_zone_domain_name }}"
-        type: A
-      register: routerelbrec
-      when: hosted_zone_domain_name is defined and ec2_name_prefix is defined
-      ignore_errors: yes
+  roles:
+  - {name: setup_s3_hosting, s3_state: absent}
 
-    - name: Delete Router ELB DNS Entry if it doesn't exist
-      route53:
-        #state: present ## Added in Ansible 2.4 will remove need for when statement below
-        command: delete
-        zone: "{{ hosted_zone_domain_name }}"
-        record: "{{ ec2_name_prefix }}.{{ hosted_zone_domain_name }}"
-        type: A
-        value: "{{ routerelbrec.set.value }}"
-      when: routerelbrec.set is defined and "{} != routerelbrec.set"
-      ignore_errors: yes
+  tasks:
 
     - name: get ec2 instance information
       ec2_remote_facts:
