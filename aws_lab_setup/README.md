@@ -4,7 +4,7 @@ Ansible AWS training provisioner
 This is an automated lab setup for Ansible training. It creates five nodes per user in the `users` list.
 
 * One control node from which Ansible will be executed from and where Ansible Tower can be installed
-* Two web nodes that coincide with the three nodes in lightbulb's original design
+* Two web nodes that coincide with the two nodes in lightbulb's original design
 
 ## Usage ##
 
