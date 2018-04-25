@@ -27,10 +27,13 @@
     - control_node
     - control
 
-- name: Install ansible repo
-  template:
-    src: templates/ansible.repo.j2
-    dest: /etc/yum.repos.d/ansible.repo
+- name: Add Ansible repo
+  yum_repository:
+    name: ansible
+    description: Ansible for Enterprise Linux 7
+    baseurl: http://releases.ansible.com/ansible/rpm/release/epel-7-x86_64/
+    enabled: yes
+    gpgcheck: no
   tags:
     - control_node
     - control
