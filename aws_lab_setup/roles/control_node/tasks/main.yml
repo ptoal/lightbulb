@@ -27,8 +27,19 @@
     - control_node
     - control
 
+- name: Add Ansible repo
+  yum_repository:
+    name: ansible
+    description: Ansible for Enterprise Linux 7
+    baseurl: http://releases.ansible.com/ansible/rpm/release/epel-7-x86_64/
+    enabled: yes
+    gpgcheck: no
+  tags:
+    - control_node
+    - control
+
 - name: Install Ansible version latest
-  pip:
+  yum:
     name: ansible
     state: latest
   register: install_ansible
@@ -40,13 +51,12 @@
     - control
   when:
     - control_node_install_ansible
-    - ansible_pip_version is not defined
+    - ansible_rpm_version is not defined
 
-- name: "Install Ansible version {{ ansible_pip_version }}"
-  pip:
-    name: ansible
+- name: "Install Ansible version {{ ansible_rpm_version }}"
+  yum:
+    name: ansible-{{ ansible_rpm_version }}*
     state: present
-    version: "{{ ansible_pip_version }}"
   register: install_ansible
   until: install_ansible|success
   delay: 3
@@ -56,7 +66,7 @@
     - control
   when:
     - control_node_install_ansible
-    - ansible_pip_version is defined
+    - ansible_rpm_version is defined
 
 
 - name: Clone lightbulb
