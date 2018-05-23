@@ -24,7 +24,7 @@
       suffix: 'index.html'
     register: s3_site
 
-  - name: dns for landing page
+  - name: dns for landing page (Route 53)
     route53:
       state: "{{ s3_state }}"
       zone: "{{ workshop_dns_zone }}"
@@ -32,7 +32,19 @@
       type: CNAME
       overwrite: yes
       value: "{{ ec2_name_prefix | lower }}.{{ workshop_dns_zone }}.s3-website.{{ ec2_region }}.amazonaws.com"
-    when: ec2_region != 'us-east-1'
+    when: (ec2_region != 'us-east-1' and dns_provider == 'route53')
+
+  - name: dns for landing page (DNS Made Easy)
+    dnsmadeeasy:
+      account_key: "{{dme_account_key}}"
+      account_secret: "{{dme_account_secret}}"
+      domain: "{{workshop_dns_zone}}"
+      record_name: "{{ ec2_name_prefix | lower }}"
+      record_ttl: "600"
+      record_type: CNAME
+      record_value: "{{ ec2_name_prefix | lower }}.{{ workshop_dns_zone }}.s3-website.{{ ec2_region }}.amazonaws.com"
+      state: "{{ s3_state }}"
+    when: dns_provider == 'dme'
 
   - name: PUT landing page
     s3_sync:
