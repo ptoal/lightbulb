@@ -3,3 +3,4 @@ users.yml
 extra_vars.yml
 *.txt
 .vagrant
+**/.DS_Store
