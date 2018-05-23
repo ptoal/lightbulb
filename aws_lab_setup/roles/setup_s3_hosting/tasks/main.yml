@@ -23,7 +23,7 @@
     record_name: "{{ ec2_name_prefix | lower }}"
     record_ttl: "600"
     record_type: CNAME
-    record_value: "{{ ec2_name_prefix | lower }}.{{ workshop_dns_zone }}.s3-website{{ '-' if ec2_region == 'us-east-1' else '.'}}{{ ec2_region }}.amazonaws.com"
+    record_value: "{{ ec2_name_prefix | lower }}.{{ workshop_dns_zone }}.s3-website{{ '-' if ec2_region == 'us-east-1' else '.'}}{{ ec2_region }}.amazonaws.com."
     state: "{{ s3_state }}"
   when: dns_provider == 'dme'
 
