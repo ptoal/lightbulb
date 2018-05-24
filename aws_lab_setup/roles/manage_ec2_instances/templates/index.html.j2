@@ -39,7 +39,7 @@ Try it Yourself »
   </div>
   <div data-role="main">
     <img src="https://www.ansible.com/hubfs/2016_Images/Assets/Ansible-Tower-Logotype-Small-RGB-FullBlack.png"/>
-    <h3>CONTACT: "{{ instructor_email }}"<br>
+    <h3>CONTACT: "{% filter escape %}{{ instructor_email }}{% endfilter %}"<br>
 
 
 GITHUB for Ansible Lightbulb: <a href="https://github.com/mgmt-sa-tiger-team/lightbulb" target="lightbulb">https://github.com/mgmt-sa-tiger-team/lightbulb</a><br><br>
