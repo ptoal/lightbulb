@@ -13,6 +13,18 @@ ec2_regions:
       ubuntu14: ami-feed08e8
       ubuntu16: ami-9dcfdb8a
 
+  us-east-2:
+    vpc: vpc-0feea267
+    subnet_id: subnet-d0d1aeb8
+    key_name: "{{ ec2_key_name | default('training') }}"
+    amis:
+      centos7: ami-61bbf104
+      centos7-tower: ami-877b9e91
+      rhel7: ami-11754a74
+      rhel7-tower: ami-87744be2
+      ubuntu14: ami-feed08e8
+      ubuntu16: ami-9dcfdb8a
+
   us-west-1:
     vpc: vpc-ce1f9aab
     subnet_id: subnet-25b9157c
