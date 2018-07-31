@@ -1,0 +1,10 @@
+[defaults]
+connection = smart
+timeout = 60
+<<<<<<< HEAD:aws_lab_setup/roles/control_node/templates/ansible.cfg.j2
+forks = 10
+inventory = {{ control_node_inventory_path }}{{ username }}-instances.txt
+=======
+inventory = {{ control_node_inventory_path }}
+>>>>>>> e746bfd9b9579dc2b619b2e6de802639accbfee3:tools/aws_lab_setup/roles/control_node/templates/ansible.cfg.j2
+host_key_checking = False

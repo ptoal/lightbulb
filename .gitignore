@@ -2,5 +2,16 @@ secrets.yml
 users.yml
 extra_vars.yml
 *.txt
+<<<<<<< HEAD
 .vagrant
 **/.DS_Store
+=======
+instructor*
+.vagrant/*
+ansible.cfg
+inventory.ini
+TODO
+TODO.md
+bak/
+*.BAK
+>>>>>>> e746bfd9b9579dc2b619b2e6de802639accbfee3

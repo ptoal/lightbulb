@@ -202,6 +202,7 @@
         <section>
           <h2>Installing Ansible</h2>
           <pre class="language-yaml"><code>
+<<<<<<< HEAD
 # the most common and preferred way of
 # installation
 $ sudo pip install ansible
@@ -213,6 +214,21 @@ $ sudo yum install ansible
 # you will need the PPA repo configured on
 # Debian or Ubuntu
 $ sudo apt-get install ansible
+=======
+# the best way to install Ansible on
+# CentOS, RHEL, or Scientific Linux
+# is to configure the EPEL repository
+# and install Ansible directly
+$ sudo yum install ansible
+
+# on Debian or Ubuntu you will need the PPA
+# repo configured
+$ sudo apt-get install ansible
+
+# on all other platforms it can be
+# installed via pip
+$ sudo pip install ansible
+>>>>>>> e746bfd9b9579dc2b619b2e6de802639accbfee3
           </code></pre>
           <aside class="notes">
             <p>As open source, Ansible is freely-available thru numerous means and can be installed in minutes with only a few requirements that most system already have. The installation methods listed here are the most commonly used.</p>
@@ -554,11 +570,19 @@ $ ansible web -m command -a &quot;uptime&quot;
             <li>Discovered facts</li>
             <li>Roles</li>
           </ul>
+<<<<<<< HEAD
         </section>
         <aside class="notes">
           <p>While automation exists to make it easier to make things repeatable, all of your systems are not exactly alike.</p>
           <p>Variables are used to store metadata for each host drawing from numerous sources. For example variable may be for things like facts or file paths or package versions.</p>
         </aside>
+=======
+          <aside class="notes">
+            <p>While automation exists to make it easier to make things repeatable, all of your systems are not exactly alike.</p>
+            <p>Variables are used to store metadata for each host drawing from numerous sources. For example variable may be for things like facts or file paths or package versions.</p>
+          </aside>
+        </section>
+>>>>>>> e746bfd9b9579dc2b619b2e6de802639accbfee3
         <section>
           <h2>Variable Precedence</h2>
           <p>The order in which the same variable from different sources will override each other.</p>
@@ -666,7 +690,11 @@ tasks:
     dest: /var/www/html/
 
 <mark>handlers:</mark>
+<<<<<<< HEAD
 - name: Restart httpd
+=======
+- name: restart-httpd
+>>>>>>> e746bfd9b9579dc2b619b2e6de802639accbfee3
   service:
     name: httpd
     state: restarted
